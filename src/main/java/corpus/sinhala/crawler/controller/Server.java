@@ -28,15 +28,15 @@ public class Server implements Runnable {
 		System.out.println("Server> socket created");
 		Socket socket = serverSocket.accept();
 		System.out.println("Socket> accepted");
-		BufferedReader input = new BufferedReader(new InputStreamReader(
-				socket.getInputStream()));
-		String date;
-		while ((date = input.readLine()) != null
-				&& !date.equalsIgnoreCase("close")) {
-			if (!date.equalsIgnoreCase("check")) {
-				System.out.println("Server> Input: " + date);
-			}
-		}
+//		BufferedReader input = new BufferedReader(new InputStreamReader(
+//				socket.getInputStream()));
+//		String date;
+//		while ((date = input.readLine()) != null
+//				&& !date.equalsIgnoreCase("close")) {
+//			if (!date.equalsIgnoreCase("check")) {
+//				System.out.println("Server> Input: " + date);
+//			}
+//		}
 		System.out.println("Server> Socket closed");
 		socket.close();
 		serverSocket.close();
