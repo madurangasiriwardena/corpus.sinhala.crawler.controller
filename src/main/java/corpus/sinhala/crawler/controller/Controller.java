@@ -14,7 +14,7 @@ public class Controller {
 		int controllerPort = 11223;
 		DbConnector dbconnector = new DbConnector();
 
-		String saveBasePath = "/home/maduranga/data/";
+		String saveBasePath = "/home/maduranga/data";
 		String host = "127.0.0.1";
 
 		@SuppressWarnings("resource")
