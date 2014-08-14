@@ -70,8 +70,6 @@ public class DbConnector {
 
 		try {
 			Class.forName(driver).newInstance();
-			conn = DriverManager.getConnection(url + "?user=" + uname
-					+ "&password=" + pwd);
 			conn = DriverManager.getConnection(url, uname, pwd);
 
 		} catch (SQLException ex) {
