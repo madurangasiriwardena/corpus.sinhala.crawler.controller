@@ -12,10 +12,6 @@ public class TestClient {
 				socket.getOutputStream());
 
 		try {
-
-			output.write("check\n");
-			output.flush();
-
 			String s;
 			s = "1"
 					+ "|"
@@ -26,9 +22,6 @@ public class TestClient {
 
 			output.write(s);
 			output.write("\n");
-			output.flush();
-			
-			output.write("check\n");
 			output.flush();
 			output.write("close\n");
 			output.flush();

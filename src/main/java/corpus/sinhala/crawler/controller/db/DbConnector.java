@@ -47,12 +47,6 @@ public class DbConnector {
 //			System.out.println(e.getMessage());
 //		}
 
-		// testConnection();
-
-		// selectStatement();
-		// insertWithAutoIncrement();
-		// insertWithLastInsertedId();
-		// insertWithUpdatableResult();
 	}
 	
 	public boolean testConnection() throws DataSourceException{
