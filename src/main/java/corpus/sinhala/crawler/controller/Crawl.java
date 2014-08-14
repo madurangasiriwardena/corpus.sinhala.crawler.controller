@@ -26,6 +26,7 @@ public class Crawl implements Runnable {
 	@Override
 	public void run() {
 		try {
+			System.out.println("------------" +port);
 			Server server = new Server(port);
 			Thread t = new Thread(server);
 			t.start();

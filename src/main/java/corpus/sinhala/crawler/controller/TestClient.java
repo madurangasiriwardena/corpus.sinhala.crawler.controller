@@ -17,14 +17,12 @@ public class TestClient {
 			output.flush();
 
 			String s;
-			s = "/home/maduranga/workspace/corpus.sinhala.crowler/target/corpus.sinhala.crowler-1.0-SNAPSHOT-jar-with-dependencies.jar"
+			s = "1"
 					+ "|"
-					+ "2010/1/1"
+					+ "2010/1/4"
 					+ "|"
-					+ "2010/1/3"
-					+ "|"
-					+ "127.0.0.1"
-					+ "|" + 12345 + "|" + "/home/maduranga/data/";
+					+ "2010/1/6"
+					+ "|" + 12346;
 
 			output.write(s);
 			output.write("\n");

@@ -6,10 +6,16 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import corpus.sinhala.crawler.controller.db.DbConnector;
+
 public class Controller {
 	public static void main(String args[]) throws IOException{
 		
 		int controllerPort = 11223;
+		DbConnector dbconnector = new DbConnector();
+		
+		String saveBasePath = "/home/maduranga/data/";
+		String host = "127.0.0.1";
 		
 		@SuppressWarnings("resource")
 		ServerSocket serverSocket = new ServerSocket(controllerPort);
@@ -34,19 +40,15 @@ public class Controller {
 			
 			String[] temp = data.split("\\|");
 			
-			String jarPath = temp[0];
+			int crawlerId = Integer.parseInt(temp[0]);
 			String start = temp[1];
 			String end = temp[2];
-			String host = temp[3];
-			int port = Integer.parseInt(temp[4]);
-			String savePath = temp[5];
 			
-//			String jarPath = "/home/maduranga/workspace/corpus.sinhala.crowler/target/corpus.sinhala.crowler-1.0-SNAPSHOT-jar-with-dependencies.jar";
-//			String start = "2010/1/1";
-//			String end = "2010/1/2";
-//			String host = "127.0.0.1";
-//			int port = 12345;
-//			String savePath = "/home/maduranga/data/";
+			int port = Integer.parseInt(temp[3]);
+			String savePath = saveBasePath + "/" + crawlerId;
+			
+			dbconnector.connect();
+			String jarPath = dbconnector.getCrawlerPath(crawlerId);
 			
 			Crawl c= new Crawl(jarPath, start, end, host, port, savePath);
 			Thread t = new Thread(c);

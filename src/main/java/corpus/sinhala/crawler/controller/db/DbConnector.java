@@ -24,28 +24,28 @@ public class DbConnector {
 
 	public static void main(String[] args) {
 		DbConnector loadDriver = new DbConnector();
-		loadDriver.driverSimulator();
+		loadDriver.connect();
 	}
 
-	public void driverSimulator() {
+	public void connect() {
 		String driverName = "com.mysql.jdbc.Driver";
 		String url = "jdbc:mysql://localhost:3306/crawler_data";
 
-		// try{
-		// conn = getConnection(driverName, url, "maduranga", "maduranga");
-		// }catch(DataSourceException ex){
-		//
-		// System.out.println(ex.getMessage());
-		// }
+		 try{
+		 conn = getConnection(driverName, url, "root", "");
+		 }catch(DataSourceException ex){
+		
+		 System.out.println(ex.getMessage());
+		 }
 
-		try {
-			 boolean valiedConnection = testConnection(driverName, url, "root", "");
-			if (valiedConnection) {
-				System.out.println("Connection is Healthy");
-			}
-		} catch (DataSourceException e) {
-			System.out.println(e.getMessage());
-		}
+//		try {
+//			 boolean valiedConnection = testConnection(driverName, url, "root", "");
+//			if (valiedConnection) {
+//				System.out.println("Connection is Healthy");
+//			}
+//		} catch (DataSourceException e) {
+//			System.out.println(e.getMessage());
+//		}
 
 		// testConnection();
 
@@ -136,6 +136,26 @@ public class DbConnector {
 		}
 		
 		return true;
+	}
+	
+	public String getCrawlerPath(int crawlerId){
+		String query = "SELECT * FROM crawler WHERE ID = ?";
+		ResultSet rs;
+		try {
+			PreparedStatement stmt3 = conn.prepareStatement(query);
+			stmt3.setInt(1, crawlerId);
+			rs = stmt3.executeQuery();
+			if(rs.next()){
+				String location = rs.getString("LOCATION");
+				return location;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		return null;
+		
 	}
 
 
