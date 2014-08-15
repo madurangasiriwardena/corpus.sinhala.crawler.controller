@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 14, 2014 at 12:22 ප.ව.
+-- Generation Time: Aug 15, 2014 at 11:20 පෙ.ව.
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -27,12 +27,12 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `completed` (
-  `ID` int(11) NOT NULL,
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `CRAWLERID` int(11) NOT NULL,
   `DATE` varchar(10) NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `CRAWLERID` (`CRAWLERID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `crawler` (
   `ACTIVE` tinyint(1) NOT NULL DEFAULT '0',
   `PORT` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Constraints for dumped tables
