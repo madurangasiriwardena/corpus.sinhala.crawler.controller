@@ -12,9 +12,11 @@ public class Crawl implements Runnable {
 	String host;
 	int port;
 	String savePath;
+	int crawlerId;
 
-	public Crawl(String jarPath, String start, String end, String host,
+	public Crawl(int crawlerId, String jarPath, String start, String end, String host,
 			int port, String savePath) {
+		this.crawlerId = crawlerId;
 		this.jarPath = jarPath;
 		this.start = start;
 		this.end = end;
@@ -27,7 +29,7 @@ public class Crawl implements Runnable {
 	public void run() {
 		try {
 			System.out.println("------------" +port);
-			Server server = new Server(port);
+			Server server = new Server(crawlerId, port);
 			Thread t = new Thread(server);
 			t.start();
 			String command = "java -jar " + jarPath + " " + start + " " + end

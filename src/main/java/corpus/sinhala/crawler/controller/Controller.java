@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 
 import corpus.sinhala.crawler.controller.db.DbConnector;
 
@@ -46,11 +47,17 @@ public class Controller {
 			String savePath = saveBasePath + "/" + crawlerId;
 
 			dbconnector.connect();
-			String jarPath = dbconnector.getCrawlerPath(crawlerId);
+			String jarPath;
+			try {
+				jarPath = dbconnector.getCrawlerPath(crawlerId);
+				Crawl c = new Crawl(crawlerId, jarPath, start, end, host, port, savePath);
+				Thread t = new Thread(c);
+				t.start();
+			} catch (SQLException e) {
+				System.out.println("Error while geting the jar path");
+			}
 
-			Crawl c = new Crawl(jarPath, start, end, host, port, savePath);
-			Thread t = new Thread(c);
-			t.start();
+			
 		}
 
 	}

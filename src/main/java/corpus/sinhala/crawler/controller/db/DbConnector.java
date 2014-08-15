@@ -1,4 +1,5 @@
 package corpus.sinhala.crawler.controller.db;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,8 +15,8 @@ public class DbConnector {
 	String url;
 	String uname;
 	String pwd;
-	
-	public DbConnector(){
+
+	public DbConnector() {
 		driverName = "com.mysql.jdbc.Driver";
 		url = "jdbc:mysql://localhost:3306/crawler_data";
 		uname = "root";
@@ -28,28 +29,27 @@ public class DbConnector {
 	}
 
 	public void connect() {
-		String driverName = "com.mysql.jdbc.Driver";
-		String url = "jdbc:mysql://localhost:3306/crawler_data";
 
-		 try{
-		 conn = getConnection(driverName, url, "root", "");
-		 }catch(DataSourceException ex){
-		
-		 System.out.println(ex.getMessage());
-		 }
+		try {
+			conn = getConnection(driverName, url, "root", "");
+		} catch (DataSourceException ex) {
 
-//		try {
-//			 boolean valiedConnection = testConnection(driverName, url, "root", "");
-//			if (valiedConnection) {
-//				System.out.println("Connection is Healthy");
-//			}
-//		} catch (DataSourceException e) {
-//			System.out.println(e.getMessage());
-//		}
+			System.out.println(ex.getMessage());
+		}
+
+		// try {
+		// boolean valiedConnection = testConnection(driverName, url, "root",
+		// "");
+		// if (valiedConnection) {
+		// System.out.println("Connection is Healthy");
+		// }
+		// } catch (DataSourceException e) {
+		// System.out.println(e.getMessage());
+		// }
 
 	}
-	
-	public boolean testConnection() throws DataSourceException{
+
+	public boolean testConnection() throws DataSourceException {
 		return testConnection(driverName, url, uname, pwd);
 	}
 
@@ -73,10 +73,6 @@ public class DbConnector {
 			conn = DriverManager.getConnection(url, uname, pwd);
 
 		} catch (SQLException ex) {
-			// handle any errors
-			// System.out.println("SQLException: " + ex.getMessage());
-			// System.out.println("SQLState: " + ex.getSQLState());
-			// System.out.println("VendorError: " + ex.getErrorCode());
 			throw new DataSourceException(
 					"Error establishing data source connection: "
 							+ ex.getMessage(), ex);
@@ -93,62 +89,46 @@ public class DbConnector {
 
 		return conn;
 	}
-	
-	public boolean saveDate(int crawlerId, String date){
+
+	public boolean saveDate(int crawlerId, String date) throws SQLException {
 		String query = "INSERT INTO completed (CRAWLERID, DATE) values (?,?)";
 
-		try {
-			PreparedStatement stmt3 = conn.prepareStatement(query);
-			stmt3.setInt(1, crawlerId);
-			stmt3.setString(2, date);
-			stmt3.execute();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
-		}
-		
+		PreparedStatement stmt3 = conn.prepareStatement(query);
+		stmt3.setInt(1, crawlerId);
+		stmt3.setString(2, date);
+		stmt3.execute();
+
 		return true;
-		
+
 	}
-	
-	public boolean changeCrawlerState(int crawlerId, boolean state, int port){
+
+	public boolean changeCrawlerState(int crawlerId, boolean state, int port)
+			throws SQLException {
 		String query = "UPDATE crawler SET ACTIVE=?, PORT=? WHERE ID=?";
 
-		try {
-			PreparedStatement stmt3 = conn.prepareStatement(query);
-			stmt3.setBoolean(1, state);
-			stmt3.setInt(2, port);
-			stmt3.setInt(3, crawlerId);
-			stmt3.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
-		}
-		
+		PreparedStatement stmt3 = conn.prepareStatement(query);
+		stmt3.setBoolean(1, state);
+		stmt3.setInt(2, port);
+		stmt3.setInt(3, crawlerId);
+		stmt3.executeUpdate();
+
 		return true;
 	}
-	
-	public String getCrawlerPath(int crawlerId){
+
+	public String getCrawlerPath(int crawlerId) throws SQLException {
 		String query = "SELECT * FROM crawler WHERE ID = ?";
 		ResultSet rs;
-		try {
-			PreparedStatement stmt3 = conn.prepareStatement(query);
-			stmt3.setInt(1, crawlerId);
-			rs = stmt3.executeQuery();
-			if(rs.next()){
-				String location = rs.getString("LOCATION");
-				return location;
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
-		return null;
-		
-	}
 
+		PreparedStatement stmt3 = conn.prepareStatement(query);
+		stmt3.setInt(1, crawlerId);
+		rs = stmt3.executeQuery();
+		if (rs.next()) {
+			String location = rs.getString("LOCATION");
+			return location;
+		}
+
+		return null;
+
+	}
 
 }
