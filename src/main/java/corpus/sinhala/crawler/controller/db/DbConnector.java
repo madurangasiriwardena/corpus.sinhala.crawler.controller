@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DbConnector {
+
+	private static DbConnector instance = null;
+
 	Connection conn = null;
 	Statement stmt = null;
 	ResultSet rs = null;
@@ -16,11 +19,18 @@ public class DbConnector {
 	String uname;
 	String pwd;
 
-	public DbConnector() {
+	protected DbConnector() {
 		driverName = "com.mysql.jdbc.Driver";
 		url = "jdbc:mysql://localhost:3306/crawler_data";
 		uname = "root";
 		pwd = "";
+	}
+
+	public static DbConnector getInstance() {
+		if (instance == null) {
+			instance = new DbConnector();
+		}
+		return instance;
 	}
 
 	public static void main(String[] args) {
@@ -29,9 +39,9 @@ public class DbConnector {
 	}
 
 	public void connect() {
-
 		try {
-			conn = getConnection(driverName, url, "root", "");
+			if (conn == null)
+				conn = getConnection(driverName, url, "root", "");
 		} catch (DataSourceException ex) {
 
 			System.out.println(ex.getMessage());

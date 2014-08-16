@@ -27,7 +27,7 @@ public class Server implements Runnable {
 	public Server(int crawlerId, int port) {
 		this.crawlerId = crawlerId;
 		this.port = port;
-		dbconnector = new DbConnector();
+		dbconnector = DbConnector.getInstance();
 	}
 
 	public void receive() throws IOException, SQLException {

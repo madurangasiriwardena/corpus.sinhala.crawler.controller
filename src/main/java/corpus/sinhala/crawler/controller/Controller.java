@@ -13,7 +13,7 @@ public class Controller {
 	public static void main(String args[]) throws IOException {
 
 		int controllerPort = 11223;
-		DbConnector dbconnector = new DbConnector();
+		DbConnector dbconnector = DbConnector.getInstance();
 
 		String saveBasePath = "/home/maduranga/data";
 		String host = "127.0.0.1";
