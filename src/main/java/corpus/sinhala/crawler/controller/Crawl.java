@@ -36,19 +36,19 @@ public class Crawl implements Runnable {
 					+ " " + " " + host + " " + port + " " + savePath;
 			System.out.println(command);
 			p = Runtime.getRuntime().exec(command);
-//			String line;
-//			BufferedReader bri = new BufferedReader(new InputStreamReader(
-//					p.getInputStream()));
-//			BufferedReader bre = new BufferedReader(new InputStreamReader(
-//					p.getErrorStream()));
-//			while ((line = bri.readLine()) != null) {
-//				System.out.println(line);
-//			}
-//			bri.close();
-//			while ((line = bre.readLine()) != null) {
-//				System.out.println(line);
-//			}
-//			bre.close();
+			String line;
+			BufferedReader bri = new BufferedReader(new InputStreamReader(
+					p.getInputStream()));
+			BufferedReader bre = new BufferedReader(new InputStreamReader(
+					p.getErrorStream()));
+			while ((line = bri.readLine()) != null) {
+				System.out.println(line);
+			}
+			bri.close();
+			while ((line = bre.readLine()) != null) {
+				System.out.println(line);
+			}
+			bre.close();
 			p.waitFor();
 			System.out.println("Crawl>" + p.exitValue());
 		} catch (IOException e) {
