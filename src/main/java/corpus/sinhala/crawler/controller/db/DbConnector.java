@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import corpus.sinhala.crawler.controller.SysProperty;
+
 public class DbConnector {
 
 	private static DbConnector instance = null;
@@ -20,10 +22,13 @@ public class DbConnector {
 	String pwd;
 
 	protected DbConnector() {
+		
 		driverName = "com.mysql.jdbc.Driver";
-		url = "jdbc:mysql://localhost:3306/crawler_data";
-		uname = "root";
-		pwd = "";
+		url = "jdbc:mysql://"+SysProperty.getProperty("dbHost")+":3306/crawler_data";
+		uname = SysProperty.getProperty("dbUser");
+		pwd = SysProperty.getProperty("dbPassword");
+		
+		connect();
 	}
 
 	public static DbConnector getInstance() {
@@ -38,7 +43,7 @@ public class DbConnector {
 		loadDriver.connect();
 	}
 
-	public void connect() {
+	private void connect() {
 		try {
 			if (conn == null)
 				conn = getConnection(driverName, url, "root", "");

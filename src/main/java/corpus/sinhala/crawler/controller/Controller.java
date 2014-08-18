@@ -5,18 +5,25 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.SQLException;
 
-import corpus.sinhala.crawler.controller.db.DbConnector;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 public class Controller {
+	static final Logger log = Logger.getLogger(Controller.class);
+	
 	public static void main(String args[]) throws IOException {
-
+		try {
+			String log4jConfPath = SysProperty.getProperty("logPath") + "/log4j.properties";
+			PropertyConfigurator.configure(log4jConfPath);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 		int controllerPort = 11223;
-		DbConnector dbconnector = DbConnector.getInstance();
 
-		String saveBasePath = "/home/maduranga/data";
-		String host = "127.0.0.1";
+		String saveBasePath = SysProperty.getProperty("savePath");
+		String host = SysProperty.getProperty("dbHost");
 
 		@SuppressWarnings("resource")
 		ServerSocket serverSocket = new ServerSocket(controllerPort);
@@ -25,6 +32,7 @@ public class Controller {
 		while (true) {
 			Socket socket = serverSocket.accept();
 			System.out.println("Socket> accepted");
+			log.debug("Job received");
 			BufferedReader input = new BufferedReader(new InputStreamReader(
 					socket.getInputStream()));
 			String msg;
@@ -46,18 +54,10 @@ public class Controller {
 			int port = Integer.parseInt(temp[3]);
 			String savePath = saveBasePath + "/" + crawlerId;
 
-			dbconnector.connect();
-			String jarPath;
-			try {
-				jarPath = dbconnector.getCrawlerPath(crawlerId);
-				Crawl c = new Crawl(crawlerId, jarPath, start, end, host, port, savePath);
-				Thread t = new Thread(c);
-				t.start();
-			} catch (SQLException e) {
-				System.out.println("Error while geting the jar path");
-			}
+			Crawl c = new Crawl(crawlerId, start, end, host, port, savePath);
+			Thread t = new Thread(c);
+			t.start();
 
-			
 		}
 
 	}
