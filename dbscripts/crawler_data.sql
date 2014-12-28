@@ -54,6 +54,9 @@ CREATE TABLE IF NOT EXISTS `mahawansa_size` (
   `size` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+INSERT INTO `mahawansa_size` (`id`, `size`) VALUES
+(1, 0);
+
 CREATE TABLE IF NOT EXISTS `wikipedia_content` (
   `url` varchar(2000) NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '1'
