@@ -22,7 +22,7 @@ Inside the logPath create a file named *log4j.properties* and add the bellow pro
     log4j.appender.file.MaxFileSize=1MB
     log4j.appender.file.MaxBackupIndex=1
     log4j.appender.file.layout=org.apache.log4j.PatternLayout
-    log4j.appender.file.layout.ConversionPattern=%-5p - %d{yyyy-MM-dd HH:mm:ss.SSS}; %C; %m\n
+    log4j.appender.file.layout.ConversionPattern=%-5p - %d{yyyy-MM-dd HH:mm:ss.SSS}; %C; %m\n 
 
 Create a database in MySQL named *crawler_data* and run the *crawler_data.sql* in dbscripts folder.
 
