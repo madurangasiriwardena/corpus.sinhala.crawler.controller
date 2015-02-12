@@ -13,36 +13,29 @@ public class Controller {
 	static final Logger log = Logger.getLogger(Controller.class);
 	
 	public static void main(String args[]) throws IOException {
-		try {
-			String log4jConfPath = SysProperty.getProperty("logPath") + "/log4j.properties";
-			PropertyConfigurator.configure(log4jConfPath);
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
 		
 		int controllerPort = 11223;
 
-		String saveBasePath = SysProperty.getProperty("savePath");
-		String host = SysProperty.getProperty("dbHost");
+		String saveBasePath = ConfigManager.getProperty(ConfigManager.SAVE_PATH);
+		String host = ConfigManager.getProperty(ConfigManager.SERVER_HOST);
 
 		@SuppressWarnings("resource")
 		ServerSocket serverSocket = new ServerSocket(controllerPort);
-		System.out.println("Server> socket created");
+		log.info("Server socket created at port " + controllerPort);
 
 		while (true) {
+
 			Socket socket = serverSocket.accept();
-			System.out.println("Socket> accepted");
-			log.debug("Job received");
+			log.info("Job received");
 			BufferedReader input = new BufferedReader(new InputStreamReader(
 					socket.getInputStream()));
 			String msg;
 			String data = "";
 			while ((msg = input.readLine()) != null
 					&& !msg.equalsIgnoreCase("close")) {
-				System.out.println("Server> Input: " + msg);
 				data = msg;
 			}
-			System.out.println("Server> Socket closed");
+			log.info("Connection Closed");
 			socket.close();
 
 			String[] temp = data.split("\\|");
@@ -53,7 +46,7 @@ public class Controller {
 
 			int port = Integer.parseInt(temp[3]);
 			String savePath = saveBasePath + "/" + crawlerId;
-
+			log.info("Starting crawler with id " + crawlerId);
 			Crawl c = new Crawl(crawlerId, start, end, host, port, savePath);
 			Thread t = new Thread(c);
 			t.start();

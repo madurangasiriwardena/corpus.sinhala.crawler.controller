@@ -44,39 +44,33 @@ public class Crawl implements Runnable {
 			t.start();
 			String command = "java -jar " + jarPath + " " + start + " " + end
 					+ " " + " " + host + " " + port + " " + savePath;
-			System.out.println(command);
+
 			p = Runtime.getRuntime().exec(command);
-			log.debug("Crawler at " + jarPath + " started");
+			log.info("Crawler at " + jarPath + " started");
 			String line;
-			BufferedReader bri = new BufferedReader(new InputStreamReader(
-					p.getInputStream()));
-			BufferedReader bre = new BufferedReader(new InputStreamReader(
-					p.getErrorStream()));
+			BufferedReader bri = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			BufferedReader bre = new BufferedReader(new InputStreamReader(p.getErrorStream()));
 			while ((line = bri.readLine()) != null) {
-				System.out.println(line);
+				log.info("Message from crawler> " + line);
 			}
 			bri.close();
 			while ((line = bre.readLine()) != null) {
-				System.out.println(line);
+				log.info("Message from crawler> "+line);
 			}
 			bre.close();
 			p.waitFor();
 			int exitValue = p.exitValue();
-			System.out.println("Crawl>" + exitValue);
-			if(exitValue == 0){
-				log.debug("Crawler at " + jarPath + " finished successfully");
-			}else{
-				log.debug("Crawler at " + jarPath + " interrupted");
+			if(exitValue == 0) {
+				log.info("Crawler at " + jarPath + " finished successfully");
+			} else {
+				log.info("Crawler at " + jarPath + " interrupted");
 			}
 			
 		} catch (IOException e) {
-			e.printStackTrace();
 			log.error("IOException", e);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
 			log.error("InterruptedException", e);
 		} catch (SQLException e) {
-			e.printStackTrace();
 			log.error("SQLException", e);
 		}
 

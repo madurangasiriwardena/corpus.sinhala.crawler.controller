@@ -24,10 +24,8 @@ public class Server implements Runnable {
 		try {
 			receive();
 		} catch (IOException e) {
-			System.out.println(e);
 			log.error("IOException",e);
 		} catch (SQLException e) {
-			System.out.println(e);
 			log.error("SQLException",e);
 		}
 
@@ -43,25 +41,24 @@ public class Server implements Runnable {
 		dbConnector.changeCrawlerState(crawlerId, true, port);
 		
 		ServerSocket serverSocket = new ServerSocket(port);
-		System.out.println("Server> socket created");
-		log.debug("Server started at port " + port);
+		log.info("Server started at port " + port);
 		
 		Socket socket = serverSocket.accept();
-		System.out.println("Socket> accepted");
+		log.info("Server accepted at port " + port);
 		BufferedReader input = new BufferedReader(new InputStreamReader(
 				socket.getInputStream()));
 		String date;
 		while ((date = input.readLine()) != null
 				&& !date.equalsIgnoreCase("close")) {
 			if (!date.equalsIgnoreCase("check")) {
-				System.out.println("Server> Input: " + date);
+				log.info("Crawler " + crawlerId + " crawled " + date);
 				dbConnector.saveDate(crawlerId, date);
 			}
 		}
-		System.out.println("Server> Socket closed");
+
 		socket.close();
 		serverSocket.close();
-		log.debug("Server at port " + port + " cloased");
+		log.debug("Server at port " + port + " closed");
 		dbConnector.changeCrawlerState(crawlerId, true, port);
 	}
 
